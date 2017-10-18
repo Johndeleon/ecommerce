@@ -65,6 +65,7 @@ class HomeController extends Controller
         $amountget = $request-> description;
         $amounts = ProductPrice::where('description','=',$amountget)->get()->first();
         $amount = $amounts->price;
+        $producttype = $amounts->description;
         $barcodes= Product::find($id);
         $barcode=$barcodes->barcode;
 
@@ -75,6 +76,7 @@ class HomeController extends Controller
 
         $cartitems->cart_id = $cart_id;
         $cartitems->product_id = $product_id;
+        $cartitems->product_type = $producttype;
         $cartitems->quantity = $quantity;
         $cartitems->amount = $amount*$quantity;
         $cartitems->barcode = $barcode;
@@ -108,12 +110,16 @@ for ($i=0; $i <$quantity ; $i++) {
         $amountget = $request-> description;
         $amounts = ProductPrice::where('description','=',$amountget)->get()->first();
         $amount = $amounts->price;
+        $producttype = $amounts->description;
         $barcodes= Product::find($id);
         $barcode=$barcodes->barcode;
 
 
         $oncart = CartItem::where('product_id','=',$id)
+        ->where('product_type','=',$producttype)
         ->count();
+
+
 
         if($oncart == 0)
         {
@@ -121,6 +127,7 @@ for ($i=0; $i <$quantity ; $i++) {
 
         $cartitems->cart_id = $cart_id;
         $cartitems->product_id = $product_id;
+        $cartitems->product_type  = $producttype;
         $cartitems->quantity = $quantity;
         $cartitems->amount = $amount*$quantity;
         $cartitems->barcode = $barcode;
@@ -153,6 +160,7 @@ for ($i=0; $i <$quantity ; $i++) {
             $newamt = $amt+($amount*$quantity);
             
      $update = CartItem::where('product_id','=',$id)
+     ->where('product_type','=',$producttype)
      ->update(['amount' => $newamt,'quantity' => $newquan]);
 
   for ($i=0; $i <$quantity ; $i++) { 
@@ -284,6 +292,7 @@ for ($i=0; $i <$quantity ; $i++) {
             }
             else
             {
+                \Session::flash('flash_message','Dear Customers, this website currently does not support payments through paypal and other online or electronic payments, thank you for your understanding!');
                 return view('billinginfo');
             }
         }
@@ -353,6 +362,7 @@ for ($i=0; $i <$quantity ; $i++) {
                 $orderitems = new OrderItem;
                 $orderitems->order_id = $order_id;
                 $orderitems->product_id = $cartitem->product_id;
+                $orderitems->product_type = $cartitem->product_type;
                 $baseprice = $cartitem->amount / $cartitem->quantity;
                 $orderitems->amount = $baseprice;
                 $orderitems->quantity = $cartitem->quantity;

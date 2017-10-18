@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Products</div>
+                <div class="panel-heading">Cart Items</div>
 
                 <div class="panel-body">
                 <div>
@@ -25,8 +25,11 @@
                         <td>
                             <h4>barcode&nbsp;</h4>
                         </td>
-                        <td>
+                         <td>
                             <h4>name&nbsp;</h4>
+                        </td>
+                        <td>
+                            <h4>type&nbsp;</h4>
                         </td>
                         <td>
                             <h4>quantity&nbsp;</h4>
@@ -41,12 +44,14 @@
                         @foreach($cartitems as $item)
                         <tr>
                             <td>
-                            {{$item->barcode}}&nbsp;
+                            {{$item->barcode}}
                             </td>
                             <td>
-                                {{$item->name}}&nbsp;
+                                {{$item->name}} 
                             </td>
-
+                            <td>
+                                {{$item->product_type}}
+                            </td>
                             <td>
                                 {{$item->quantity}}
                             </td>

@@ -8,7 +8,11 @@
                 <div class="panel-heading">Billing Info</div>
 
                 <div class="panel-body">
-
+                <div>
+                    @if(Session::has('flash_message'))
+                    <div class="session">{{Session::get('flash_message')}}</div>
+                    @endif
+        </div>
                 </div>
                     <div>
 <form method="POST" action="savebillinginfos">

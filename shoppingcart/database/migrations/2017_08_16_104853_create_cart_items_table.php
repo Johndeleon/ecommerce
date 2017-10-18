@@ -17,6 +17,7 @@ class CreateCartItemsTable extends Migration
             $table->increments('id');
             $table->integer('cart_id');
             $table->integer('product_id');
+            $table->string('product_type');
             $table->integer('quantity');
             $table->double('amount');
             $table->string('barcode');
